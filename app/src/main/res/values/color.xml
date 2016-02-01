@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- UI2.6 字体颜色标准 -->
+	<color name = "color_1">#222222</color>
+	<color name = "color_2">#505050</color>
+	<color name = "color_3">#9C9C9C</color>
+	<color name = "color_4">#CCCCCC</color>
+	<color name = "color_5">#E95847</color>
+	<color name = "color_6">#333333</color>
+	<color name = "color_7">#666666</color>
+	<color name = "color_8">#999999</color>
+	<color name = "color_9">#ebebeb</color>
+	<color name="color_bg">#F3F4F6</color>
+	<color name="transparent_color">#00000000</color> <!-- 透明色 -->
+
+</resources>
