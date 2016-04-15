@@ -1,14 +1,15 @@
 package com.yrd.store.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yrd.store.DownloadManager;
 import com.yrd.store.R;
 import com.yrd.store.ui.entities.Store;
 
@@ -23,10 +24,12 @@ import java.util.List;
 public class StoreAdapter extends BaseAdapter {
     private List<Store> mList;
     private Context mContext;
+    private Handler mHandler;
 
-    public StoreAdapter(Context mContext,List<Store> list){
+    public StoreAdapter(Context mContext,List<Store> list,Handler mHandler){
         this.mContext = mContext;
         this.mList = list;
+        this.mHandler = mHandler;
     }
 
 
@@ -47,7 +50,7 @@ public class StoreAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Store store = mList.get(position);
+        final Store store = mList.get(position);
          if(convertView == null){
              convertView = LayoutInflater.from(mContext).inflate(R.layout.store_item, null);
          }
@@ -59,6 +62,7 @@ public class StoreAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //
                 Toast.makeText(mContext,"正在下载",Toast.LENGTH_LONG).show();
+                DownloadManager.getInstance().startDown(mContext,store,mHandler);
                 tvDown.setText("下载中");
             }
         });

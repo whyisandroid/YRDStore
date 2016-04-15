@@ -10,4 +10,5 @@ public class Store {
     public String fileName;
     public String downloadUrl;
     public String fileMd5;
+    public int progress = 0;
 }

@@ -12,6 +12,7 @@ import com.yrd.store.ui.adapter.StoreAdapter;
 import com.yrd.store.ui.entities.Store;
 import com.yrd.store.ui.entities.StoreResp;
 import com.yrd.store.utils.Json_U;
+import com.yrd.store.utils.LogUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
     private List<Store> mList;
 
     private static final int SUCCESS = 1;
+    public static final int PROGRESS = 2;  // 进度条处理
 
 
 
@@ -34,6 +36,15 @@ public class MainActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case SUCCESS:
+                    adapter.notifyDataSetChanged();
+                    break;
+                case PROGRESS:
+                    Store downStore = (Store)msg.obj;
+                    for (int i = 0; i < mList.size(); i++) {
+                        if(downStore.fileMd5.equals(mList.get(i).fileMd5)){
+                            mList.get(i).progress = downStore.progress;
+                        }
+                    }
                     adapter.notifyDataSetChanged();
                     break;
                 default:
@@ -57,7 +68,7 @@ public class MainActivity extends Activity {
 
     private void initView(){
         mList = new ArrayList<Store>();
-        adapter = new StoreAdapter(this,mList);
+        adapter = new StoreAdapter(this,mList,mHandler);
         mLvStore.setAdapter(adapter);
     }
 
@@ -68,6 +79,7 @@ public class MainActivity extends Activity {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String str) {
+                LogUtil.Log("MainActivity",str);
                 StoreResp storeResp = Json_U.parseJsonToObj(str,StoreResp.class);
                 mList.clear();
                 mList.addAll(storeResp.data);
