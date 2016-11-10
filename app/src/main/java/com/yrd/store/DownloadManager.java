@@ -47,7 +47,7 @@ public class DownloadManager {
     public static final String UPDATE_FORCE = "1"; //强制更新
 
     private static int progress;
-    private static final String directory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/YRDStore/download/";
+    public static final String directory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/YRDStore/download/";
     public static boolean isDownload = false;//是否正在下载
     private static DownloadManager dManager;
 
@@ -100,9 +100,12 @@ public class DownloadManager {
             @Override
             public void onSuccess(File file) {
                 isDownload = false;
-                file.renameTo(mFile);
+                store.downFlag = file.renameTo(mFile);
+                mHandler.obtainMessage(MainActivity.PROGRESS,store).sendToTarget();
                 // openFile(context, new File(directory + new File(url).getName()));
-                openFile(context, mFile);
+                if(store.downFlag){
+                    openFile(context, mFile);
+                }
             }
 
             @Override

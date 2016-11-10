@@ -5,10 +5,19 @@
     android:background="@color/main_bg"
    >
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:divider="@color/main_bg"
-        android:id="@+id/lv_store" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/refresh_store"
+        >
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dividerHeight="3dp"
+            android:divider="@color/main_bg"
+            android:id="@+id/lv_store" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

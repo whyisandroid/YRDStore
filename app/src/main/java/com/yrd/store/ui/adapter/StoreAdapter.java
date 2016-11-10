@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yrd.store.DownloadManager;
 import com.yrd.store.R;
@@ -56,14 +56,32 @@ public class StoreAdapter extends BaseAdapter {
          }
         TextView tvStore = (TextView)convertView.findViewById(R.id.tv_store);
         final TextView tvDown = (TextView)convertView.findViewById(R.id.tv_down);
+        final ProgressBar pbStore  = (ProgressBar)convertView.findViewById(R.id.pb_store);
+        if(store.progress != 0 && store.progress != 100){
+            pbStore.setVisibility(View.VISIBLE);
+            pbStore.setProgress(store.progress);
+        }else{
+            pbStore.setVisibility(View.INVISIBLE);
+        }
         tvStore.setText(store.fileName);
+        if(store.downFlag){
+            tvDown.setText("安装");
+        }
+
+
         tvDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
-                Toast.makeText(mContext,"正在下载",Toast.LENGTH_LONG).show();
-                DownloadManager.getInstance().startDown(mContext,store,mHandler);
-                tvDown.setText("下载中");
+                if("下载中".equals(tvDown.getText().toString())){
+                }else{
+                    DownloadManager.getInstance().startDown(mContext, store, mHandler);
+                }
+
+                if(store.downFlag){
+                    tvDown.setText("安装");
+                }else{
+                    tvDown.setText("下载中");
+                }
             }
         });
         return convertView;
